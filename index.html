@@ -42,26 +42,6 @@
 </head>
 <body>
 
-<nav class="navbar" role="navigation" aria-label="main navigation">
-  <div class="navbar-brand">
-    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-    </a>
-  </div>
-  <div class="navbar-menu">
-    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
-      <a class="navbar-item" href="https://github.com/pradyut3501">
-      <span class="icon">
-          <i class="fas fa-home"></i>
-      </span>
-      </a>
-    </div>
-  </div>
-</nav>
-
-
 <section class="hero">
   <div class="hero-body">
     <div class="container is-max-desktop">
@@ -234,12 +214,15 @@
         <h2 class="title is-3 has-text-centered">Method: Seamless Spurious Token Injection (SSTI)</h2>
         <div class="content has-text-justified">
           <p>
-            To study model robustness, we introduce <i>Seamless Spurious Token Injection (SSTI) </i> — a framework that injects spurious tokens into text datasets in a controlled way. These spurious tokens are artificial patterns that correlate with labels but are not semantically meaningful.
+            We study <i>Seamless Spurious Token Injection (SSTI)</i> — a phenomenon where inserting a small number of tokens correlated with downstream classes can steer model predictions and compromise robustness.
           </p>
           <p>
-            Our framework allows full control over:
+            To analyze this, we introduce a controlled injection framework that modifies datasets by inserting label-correlated tokens while leaving the rest of the input untouched.
           </p>
-          <div class="columns">
+          <p style="margin-bottom: 1rem;">
+            Our injection framework allows full control over:
+          </p>
+          <div class="columns" style="margin-bottom: 1rem;">
             <div class="column is-half">
               <ul>
                 <li><strong>Type of token injected</strong> (dates, HTML tags, or custom lists)</li>
@@ -254,7 +237,10 @@
             </div>
           </div>
           <p>
-            We fine-tune models using LoRA across a variety of datasets and systematically evaluate how injected spurious patterns manipulate model behavior.
+            We fine-tune models with LoRA across multiple models and datasets, systematically varying these injection parameters to study model vulnerability.
+          </p>
+          <p>
+            👉 Full code available: <a href="https://github.com/pradyut3501/spurious_corr">spurious_corr</a>.
           </p>
         </div>
         
@@ -304,12 +290,12 @@
         <div class="content has-text-justified" style="margin-top: 2rem;">
           <h3 class="title is-4"><strong>A Single Token Can Control the Model</strong></h3>
           <p>
-            <b>Injecting just a <i>single token</i> per prompt is sufficient to steer model predictions</b> (see <a href="#table1">Table 1</a>). Even large pretrained models (>1B parameters) can be manipulated by a single token of SSTI — fully disregarding their pretraining knowledge. This effect holds across models, datasets, token types, and injection locations.
+            <b>Injecting just a <i>single token</i> per prompt is sufficient to steer model predictions</b> (see <a href="#table1">Table 1</a>). Even large pretrained models (>1B parameters) can be manipulated by a single token of SSTI, fully disregarding their pretraining knowledge. This effect holds across models, datasets, token types, and injection locations.
           </p>
         </div>
 
         <!-- Key Result 2 -->
-        <div class="content has-text-justified" style="margin-top: 2rem;">
+        <div class="content has-text-justified" style="margin-top: 4rem;">
           <h3 class="title is-4"><strong>Impact of LoRA Rank: Light vs Aggressive SSTI</strong></h3>
           <p>
             The model's vulnerability to spurious tokens depends on both LoRA rank and how aggressively tokens are injected:
@@ -341,7 +327,7 @@
                  </div>
 
         <!-- Key Result 3 -->
-        <div class="content has-text-justified" style="margin-top: 2rem;">
+        <div class="content has-text-justified" style="margin-top: 4rem;">
           <h3 class="title is-4"><strong>Recognizing SSTI via Attention Entropy</strong></h3>
           <p>
             Models that latch onto spurious tokens focus their attention sharply on those tokens. By measuring attention entropy:
@@ -483,7 +469,7 @@
           <p class="has-text-justified" style="margin-top: 1rem; font-size: 0.9rem;">
             <strong>Table 2:</strong> Token-level attention visualizations for samples with (top) and without (bottom) SSTI, using LoRA rank 1, 10% token injection, and 50% spurious sample rate on <u>snowflake-arctic-embed-xs</u>. When SSTI is present, attention is more concentrated, resulting in lower entropy (≈6.90 vs. ≈7.60). <strong>SSTI doesn't just influence predictions—it warps what the model pays attention to.</strong>
           </p>
-        </div>
+                  </div>
          
         </div>
       </div>
@@ -494,137 +480,31 @@
 
 <section class="section">
   <div class="container is-max-desktop">
-
-    <div class="columns is-centered">
-
-      <!-- Visual Effects. -->
-      <div class="column">
-        <div class="content">
-          <h2 class="title is-3">Visual Effects</h2>
-          <p>
-            Using <i>nerfies</i> you can create fun visual effects. This Dolly zoom effect
-            would be impossible without nerfies since it would require going through a wall.
-          </p>
-          <video id="dollyzoom" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/dollyzoom-stacked.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-      </div>
-      <!--/ Visual Effects. -->
-
-      <!-- Matting. -->
-      <div class="column">
-        <h2 class="title is-3">Matting</h2>
-        <div class="columns is-centered">
-          <div class="column content">
-            <p>
-              As a byproduct of our method, we can also solve the matting problem by ignoring
-              samples that fall outside of a bounding box during rendering.
-            </p>
-            <video id="matting-video" controls playsinline height="100%">
-              <source src="./static/videos/matting.mp4"
-                      type="video/mp4">
-            </video>
-          </div>
-
-        </div>
-      </div>
-    </div>
-    <!--/ Matting. -->
-
-    <!-- Animation. -->
+    <!-- Take-aways. -->
     <div class="columns is-centered">
       <div class="column is-full-width">
-        <h2 class="title is-3">Animation</h2>
-
-        <!-- Interpolating. -->
-        <h3 class="title is-4">Interpolating states</h3>
-        <div class="content has-text-justified">
-          <p>
-            We can also animate the scene by interpolating the deformation latent codes of two input
-            frames. Use the slider here to linearly interpolate between the left frame and the right
-            frame.
-          </p>
+        <h2 class="title is-3 has-text-centered">Takeaways</h2>
+        
+        <div class="content has-text-justified" style="margin-top: 2rem;">
+          <ul style="list-style-type: none; padding-left: 0;">
+            <li style="margin-bottom: 1.5rem;">
+              <strong>Single-token injection suffices</strong>: Injecting just a <i>single token</i> per prompt is sufficient to steer model predictions.
+            </li>
+            <li style="margin-bottom: 1.5rem;">
+              <strong>LoRA rank amplifies or mitigates vulnerability depending on context</strong>: Under light SSTI, higher LoRA ranks increase reliance on spurious tokens; under aggressive SSTI, they help restore robustness.
+            </li>
+            <li style="margin-bottom: 1.5rem;">
+              <strong>Attention entropy reveals SSTI reliance</strong>: Spurious tokens sharply reduce entropy in attention heatmaps, indicating model over-reliance on a narrow set of features. We find that if the entropy of spurious samples drops consistently below 95% of that of non-spurious samples, it may indicate SSTI is present.
+            </li>
+            <li style="margin-bottom: 1.5rem;">
+              <strong>Plug-and-play framework</strong>: We release an SSTI injection toolkit to help researchers test their own pipelines, as well as facilitate future research into different types of corruptions (<a href="https://github.com/pradyut3501/spurious_corr">https://github.com/pradyut3501/spurious_corr</a>).
+            </li>
+          </ul>
         </div>
-        <div class="columns is-vcentered interpolation-panel">
-          <div class="column is-3 has-text-centered">
-            <img src="./static/images/interpolate_start.jpg"
-                 class="interpolation-image"
-                 alt="Interpolate start reference image."/>
-            <p>Start Frame</p>
-          </div>
-          <div class="column interpolation-video-column">
-            <div id="interpolation-image-wrapper">
-              Loading...
-            </div>
-            <input class="slider is-fullwidth is-large is-info"
-                   id="interpolation-slider"
-                   step="1" min="0" max="100" value="0" type="range">
-          </div>
-          <div class="column is-3 has-text-centered">
-            <img src="./static/images/interpolate_end.jpg"
-                 class="interpolation-image"
-                 alt="Interpolation end reference image."/>
-            <p class="is-bold">End Frame</p>
-          </div>
-        </div>
-        <br/>
-        <!--/ Interpolating. -->
-
-        <!-- Re-rendering. -->
-        <h3 class="title is-4">Re-rendering the input video</h3>
-        <div class="content has-text-justified">
-          <p>
-            Using <span class="dnerf">Nerfies</span>, you can re-render a video from a novel
-            viewpoint such as a stabilized camera by playing back the training deformations.
-          </p>
-        </div>
-        <div class="content has-text-centered">
-          <video id="replay-video"
-                 controls
-                 muted
-                 preload
-                 playsinline
-                 width="75%">
-            <source src="./static/videos/replay.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <!--/ Re-rendering. -->
-
+        
       </div>
     </div>
-    <!--/ Animation. -->
-
-
-    <!-- Concurrent Work. -->
-    <div class="columns is-centered">
-      <div class="column is-full-width">
-        <h2 class="title is-3">Related Links</h2>
-
-        <div class="content has-text-justified">
-          <p>
-            There's a lot of excellent work that was introduced around the same time as ours.
-          </p>
-          <p>
-            <a href="https://arxiv.org/abs/2104.09125">Progressive Encoding for Neural Optimization</a> introduces an idea similar to our windowed position encoding for coarse-to-fine optimization.
-          </p>
-          <p>
-            <a href="https://www.albertpumarola.com/research/D-NeRF/index.html">D-NeRF</a> and <a href="https://gvv.mpi-inf.mpg.de/projects/nonrigid_nerf/">NR-NeRF</a>
-            both use deformation fields to model non-rigid scenes.
-          </p>
-          <p>
-            Some works model videos with a NeRF by directly modulating the density, such as <a href="https://video-nerf.github.io/">Video-NeRF</a>, <a href="https://www.cs.cornell.edu/~zl548/NSFF/">NSFF</a>, and <a href="https://neural-3d-video.github.io/">DyNeRF</a>
-          </p>
-          <p>
-            There are probably many more by the time you are reading this. Check out <a href="https://dellaert.github.io/NeRF/">Frank Dellart's survey on recent NeRF papers</a>, and <a href="https://github.com/yenchenlin/awesome-NeRF">Yen-Chen Lin's curated list of NeRF papers</a>.
-          </p>
-        </div>
-      </div>
-    </div>
-    <!--/ Concurrent Work. -->
-
+    <!--/ Takeaways. -->
   </div>
 </section>
 
@@ -632,11 +512,12 @@
 <section class="section" id="BibTeX">
   <div class="container is-max-desktop content">
     <h2 class="title">BibTeX</h2>
-    <pre><code>@article{park2021nerfies,
-  author    = {Park, Keunhong and Sinha, Utkarsh and Barron, Jonathan T. and Bouaziz, Sofien and Goldman, Dan B and Seitz, Steven M. and Martin-Brualla, Ricardo},
-  title     = {Nerfies: Deformable Neural Radiance Fields},
-  journal   = {ICCV},
-  year      = {2021},
+    <pre><code>@article{sekhsaria2025lora,
+    title={LoRA Users Beware: A Few Spurious Tokens Can Manipulate Your Finetuned Model},
+    author={Sekhsaria, Pradyut and Mateos Salles, Marcel and Huang, Hai and Balestriero, Randall},
+    journal={arXiv preprint arXiv:xxxx.xxxxx},
+    year={2025},
+    archivePrefix={arXiv},
 }</code></pre>
   </div>
 </section>
@@ -649,7 +530,7 @@
          href="./static/videos/nerfies_paper.pdf">
         <i class="fas fa-file-pdf"></i>
       </a>
-      <a class="icon-link" href="https://github.com/keunhong" class="external-link" disabled>
+      <a class="icon-link" href="https://github.com/pradyut3501/spurious_corr" class="external-link" disabled>
         <i class="fab fa-github"></i>
       </a>
     </div>
@@ -662,11 +543,7 @@
             Commons Attribution-ShareAlike 4.0 International License</a>.
           </p>
           <p>
-            This means you are free to borrow the <a
-              href="https://github.com/nerfies/nerfies.github.io">source code</a> of this website,
-            we just ask that you link back to this page in the footer.
-            Please remember to remove the analytics code included in the header of the website which
-            you do not want on your website.
+            Based on Nerfies Website (<a href="https://github.com/nerfies/nerfies.github.io">source code</a>).
           </p>
         </div>
       </div>
